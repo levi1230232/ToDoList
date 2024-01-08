@@ -12,7 +12,23 @@ const pool = new pg.Pool({
   password: "0EvZeRz6iGueThFzb9PxOjCRyXlCVXtt",
   port: 5432,
 });
+// Tạo bảng "items" nếu chưa tồn tại
+(async () => {
+  try {
+    const createTableQuery = `
+      CREATE TABLE IF NOT EXISTS items (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(100) NOT NULL
+      );
+    `;
+    await pool.query(createTableQuery);
+    console.log("Table 'items' created or already exists.");
+  } catch (error) {
+    console.error("Error creating 'items' table:", error);
+  }
+})();
 
+app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
