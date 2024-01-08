@@ -39,14 +39,8 @@ app.get("/", async (req, res) => {
     const items = result.rows;
     client.release(); // Release the client back to the pool after use
 
-    const dateObj = new Date();
-    const month = dateObj.getUTCMonth() + 1;
-    const day = dateObj.getUTCDate();
-    const year = dateObj.getUTCFullYear();
-
-    const newDate = day + "/" + month + "/" + year;
     res.render("index.ejs", {
-      listTitle: newDate,
+      listTitle: "Today",
       listItems: items,
     });
   } catch (err) {
